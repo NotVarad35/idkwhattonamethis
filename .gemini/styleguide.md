@@ -1,22 +1,19 @@
-# Multi-Chat Token-Saving Brain Protocol
+# Multi-Chat & Multi-Agent Brain Protocol (Antigravity + OpenCode)
 
 ## RULE 1: New Chat Intake (MANDATORY FIRST RESPONSE)
-Whenever the user starts a new conversation thread without specifying a state file, DO NOT read the whole repository. Immediately ask ONLY:
+Whenever a new conversation starts without a specified state file, DO NOT read the whole repo. Ask ONLY:
 1. "What happened / what are we working on in this chat?"
-2. "What type of task/problem is this? (Software / Hardware / Electronics / Homelab / Documentation)"
+2. "What type of problem is this? (Software / Hardware / Electronics / Homelab / Documentation)"
 
-## RULE 2: Modular Per-Chat State Files (`progress-state-{topic}.md`)
-- Never bloat a single massive file.
-- Once the user answers Rule 1, check `docs/states/` for an existing `progress-state-{topic}.md`.
-- If none exists, copy `docs/states/_template.md` to create `docs/states/progress-state-{topic-in-kebab-case}.md`.
-- Update ONLY that chat's `progress-state-{topic}.md` after each milestone with:
-  1. Supposed to do
-  2. What we actually did
-  3. Currently doing
-  4. Left to do
-- Only read `docs/inventory-bom.md` or `docs/history-master.md` when hardware pinouts or past incident context are explicitly needed.
+## RULE 2: Modular Per-Chat State Files & Obsidian `[[WikiLinks]]`
+- Date format across all files is strictly `DD-MM-YYYY`.
+- Check `docs/states/` for an existing `progress-state-{topic}.md`. If none exists, copy `docs/states/_template.md`.
+- Use Obsidian-style links to reference other files and subheadings without duplicating text:
+  - Example: `[[inventory-bom#Compute & Phones]]`
+  - Example: `[[progress-state-m11-homelab#2. Tracker]]`
+- Whenever a task updates or changes, update BOTH the local `docs/states/progress-state-{topic}.md` AND the master router links in `docs/progress-state.md`[cite: 1].
 
-## RULE 3: User Profile Constraints
-- User knows Java OOP (explain C++/Bash briefly using Java mental models when asked).
-- Strictly offline/self-hosted ethos. Never suggest paid cloud subscriptions.
-- Sleeper PC/DVD build is a distant myth (high hardware cost); focus strictly on active bench hardware (ESP32 Jukebox, Samsung M11, NFC Posters).
+## RULE 3: Hard Hardware & OS Safety Locks
+- **Samsung M11 (CRITICAL):** NEVER delete or disable **Samsung Settings** (`com.android.settings`) or **Device Drivers** under any circumstances. Montray is removed.
+- **Storage Reality:** There is ONLY ONE 64GB MicroSD card (`43CC-5E0C`), and it is currently inside the Samsung Galaxy M11. The DFPlayer Mini currently has NO SD card inserted.
+- **User Coding Profile:** User knows Java OOP. Explain C++ and Bash using Java mental models.

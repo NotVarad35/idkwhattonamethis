@@ -1,0 +1,17 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "instructions": [
+    ".gemini/styleguide.md",
+    "docs/progress-state.md"
+  ],
+  "agent": {
+    "architect": {
+      "description": "Main Brain router, updates Obsidian [[links]] and progress-state-{topic}.md files",
+      "prompt": "You manage project architecture and markdown state files. Follow .gemini/styleguide.md strictly. Use Obsidian [[filename#heading]] links to connect state files."
+    },
+    "coder": {
+      "description": "Writes ESP32 C++ (explained via Java OOP) and M11 Termux Bash scripts",
+      "prompt": "You write clean embedded C++ and Bash scripts. The user knows Java OOP. Read only the linked [[progress-state-...]] file for your task and update its Tracker section when done."
+    }
+  }
+}

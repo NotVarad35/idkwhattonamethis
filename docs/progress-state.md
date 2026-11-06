@@ -1,36 +1,34 @@
-# Project Ecosystem: Active Progress State
-
-## System Rule for AI Agents
-Every specialized chat MUST read this file first and update its respective module block below upon completing any step.
+# Master Project Router (`idkwhattonamethis`)
+- **Last Updated:** 06-11-2026
+- **Master Inventory:** [[inventory-bom]]
+- **Chronological History:** [[history-master]]
 
 ---
 
-## Module 1: Workspace & AI Environment
-- **Supposed to do:** Set up local monorepo, VS Code + Antigravity, private GitHub repo, and multi-chat `.md` tracking.
-- **Completed:** Designed directory structure and agent sync rules.
-- **Currently doing:** Initializing Git repo and pasting baseline `.md` files.
-- **Left to do:** First `git push` to private GitHub repository.
+## Module 1: Workspace & Multi-Agent System (Antigravity + OpenCode)
+- **Supposed to do:** Set up `D:\project\idkwhattonamethis`, VS Code Antigravity, OpenCode UI, private GitHub repo (`NotVarad35/idkwhattonamethis`), and Obsidian-linked modular `.md` tracking.
+- **Completed:** Migrated to Antigravity, created `.gemini/styleguide.md`[cite: 1], pushed initial commit to GitHub, designed `opencode.json` multi-agent config.
+- **Currently doing:** Configuring OpenCode UI and linking per-chat state files in `docs/states/`[cite: 1].
+- **Left to do:** Switch GitHub repo visibility to Private and test first `@architect` -> `@coder` handoff.
 
 ## Module 2: Samsung Galaxy M11 (DAP + 2.4GHz Homelab)
-- **Specs:** 3GB RAM | 23GB/32GB Internal Used | 64GB MicroSD Installed | One UI (Android) | 2.4GHz Wi-Fi.
-- **Supposed to do:** Debloat via ADB, keep core apps (Settings, CX File Explorer, Montray/SpotiFLAC, YouTube ReVanced, Tailscale), install Linux terminal (Termux), and configure OpenSSH Server for PC control.
-for now delete Montray also. THINGS NOT TO DELETE NO MATTER WHAT IS samsung Settings and Device Drivers.
-- **Completed:** Initial Google/Samsung system app removal via ADB; core media apps installed.
-- **Currently doing:** Installing F-Droid Termux, configuring `sshd` on Port 8022, and mapping 64GB SD card permissions.
-- **Left to do:** Connect via PowerShell SSH from laptop and lock in One UI background battery exemptions.
+- **Linked State File:** [[states/progress-state-m11-homelab]]
+- **Specs:** 3GB RAM | 32GB Internal (9GB free pre-debloat; update bracket post-debloat in [[inventory-bom#Compute & Phones]]) | 64GB MicroSD (`43CC-5E0C`) installed | 2.4GHz Wi-Fi | 3.5mm Jack.
+- **CRITICAL LOCK:** NEVER touch or delete **Samsung Settings** or **Device Drivers**.
+- **Supposed to do:** Debloat via ADB (removed Montray too), keep core apps (`Samsung Settings`, `Device Drivers`, `CX File Explorer`, `YouTube ReVanced`, `VLC`, `Gboard`), install `Termux`, and configure `OpenSSH` (`:8022`) for PC control.
+- **Completed:** ADB debloat pass, Termux + OpenSSH running on port 8022, 64GB SD card mapped, verified CLI FLAC playback via `mpv`.
+- **Currently doing:** Checking post-debloat free internal storage space and planning automated weekly/daily Termux scripts.
+- **Left to do:** Configure Termux `crond` task scheduler for automated scripts.
 
 ## Module 3: ESP32 + DFPlayer Physical Jukebox
-- **Supposed to do:** Build standalone offline Jukebox with tactile buttons and local Web UI.
-- **Completed:** 
-  - Formatted 64GB SD card to FAT32; converted 15 test tracks via FFmpeg to 16-bit 44.1kHz WAV in `/mp3/0001.wav`–`0015.wav`.
-  - Wired DFPlayer Mini (`VIN`, `GND`, `TX2/GPIO17`, `RX2/GPIO16`) and TRRS 3.5mm breakout (`DAC_L`, `DAC_R`, `GND`).
-  - Solved CP2102 COM4 driver and Micro-USB data cable upload.
-  - Removed unsoldered RC522 NFC module.
-- **Currently doing:** Wiring 3 tactile push buttons (`GPIO 25, 26, 27` -> `GND`) and flashing hybrid Web UI + Button C++ firmware.
-- **Left to do:** Wire KY-040 rotary encoder, test 18650 battery + TP4056 + 5V boost chain.
+- **Linked State File:** [[states/progress-state-jukebox-esp32]]
+- **Hardware Note:** Currently has NO MicroSD card (the single 64GB card is in the M11; see [[inventory-bom#Storage]]).
+- **Supposed to do:** Build standalone offline Jukebox on breadboard.
+- **Completed:** Verified CP2102 COM4 flashing[cite: 3] and removed unsoldered RC522 NFC module[cite: 3].
+- **Currently doing:** **Scrapped previous buggy Web UI & wiring — redoing all the work from scratch on the breadboard.**
+- **Left to do:** Decide SD card allocation for DFPlayer Mini, re-verify clean breadboard wiring from zero, and write fresh modular C++ code step-by-step.
 
 ## Module 4: NFC Album Wall Posters
-- **Supposed to do:** Repurpose NTAG213 stickers onto room album posters to trigger playback when scanned by phone.
-- **Completed:** Verified NTAG213 read/write works using daily phone's NFC scanner.
-- **Currently doing:** Planning webhook/playback trigger between phone scanner and M11/Jukebox.
-- **Left to do:** Buy album posters, stick tags, map UIDs/URLs.
+- **Supposed to do:** Repurpose 5x NTAG213 stickers onto room album posters to trigger playback when scanned by Nothing Phone (2a)[cite: 2, 3].
+- **Completed:** Verified NTAG213 read/write works using phone NFC scanner.
+- **Currently doing:** On hold until physical album posters are purchased.
