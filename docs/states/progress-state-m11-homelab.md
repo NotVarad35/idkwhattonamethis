@@ -1,7 +1,7 @@
 # State Tracker: Samsung M11 DAP & Homelab
 - **Problem Category:** Software / Homelab / Android ADB & Termux
 - **Created / Last Updated:** 06-11-2026 06:31:07
-- **Related Links:** [[progress-state#Module 2: Samsung Galaxy M11 (DAP + 2.4GHz Homelab)]] | [[inventory-bom#Compute & Phones]]
+- **Related Links:** [[progress-state#Module 2: Samsung Galaxy M11 (DAP + 2.4GHz Homelab)]] | [[inventory-bom#Compute & Devices]]
 
 ## 1. What Happened / Context
 - Repurposed a free Samsung Galaxy M11 (3GB/32GB) with our single 64GB MicroSD card (`/storage/43CC-5E0C`) as an offline FLAC player and lightweight 2.4GHz Wi-Fi Linux homelab.

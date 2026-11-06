@@ -13,7 +13,7 @@
 
 ## Module 2: Samsung Galaxy M11 (DAP + 2.4GHz Homelab)
 - **Linked State File:** [[states/progress-state-m11-homelab]]
-- **Specs:** 3GB RAM | 32GB Internal (9GB free pre-debloat; update bracket post-debloat in [[inventory-bom#Compute & Phones]]) | 64GB MicroSD (`43CC-5E0C`) installed | 2.4GHz Wi-Fi | 3.5mm Jack.
+- **Specs:** 3GB RAM | 32GB Internal (9GB free pre-debloat; update bracket post-debloat in [[inventory-bom#Compute & Devices]]) | 64GB MicroSD (`43CC-5E0C`) installed | 2.4GHz Wi-Fi | 3.5mm Jack.
 - **CRITICAL LOCK:** NEVER touch or delete **Samsung Settings** or **Device Drivers**.
 - **Supposed to do:** Debloat via ADB (removed Montray too), keep core apps (`Samsung Settings`, `Device Drivers`, `CX File Explorer`, `YouTube ReVanced`, `VLC`, `Gboard`), install `Termux`, and configure `OpenSSH` (`:8022`) for PC control.
 - **Completed:** ADB debloat pass, Termux + OpenSSH running on port 8022, 64GB SD card mapped, verified CLI FLAC playback via `mpv`.

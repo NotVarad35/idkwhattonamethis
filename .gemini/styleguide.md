@@ -9,7 +9,7 @@ Whenever a new conversation starts without a specified state file, DO NOT read t
 - Date format across all files is strictly `DD-MM-YYYY HH:mm:ss` (include seconds).
 - Check `docs/states/` for an existing `progress-state-{topic}.md`. If none exists, copy `docs/states/_template.md`.
 - Use Obsidian-style links to reference other files and subheadings without duplicating text:
-  - Example: `[[inventory-bom#Compute & Phones]]`
+  - Example: `[[inventory-bom#Compute & Devices]]`
   - Example: `[[progress-state-m11-homelab#2. Tracker]]`
 - Whenever a task updates or changes, update BOTH the local `docs/states/progress-state-{topic}.md` AND the master router links in `docs/progress-state.md`[cite: 1].
 
