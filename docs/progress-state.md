@@ -1,5 +1,5 @@
 # Master Project Router (`idkwhattonamethis`)
-- **Last Updated:** 06-11-2026 06:31:07
+- **Last Updated:** 06-11-2026 08:20:00
 - **Master Inventory:** [[inventory-bom]]
 - **Chronological History:** [[history-master]]
 
@@ -13,12 +13,12 @@
 
 ## Module 2: Samsung Galaxy M11 (DAP + 2.4GHz Homelab)
 - **Linked State File:** [[states/progress-state-m11-homelab]]
-- **Specs:** 3GB RAM | 32GB Internal (9GB free pre-debloat; update bracket post-debloat in [[inventory-bom#Compute & Devices]]) | 64GB MicroSD (`43CC-5E0C`) installed | 2.4GHz Wi-Fi | 3.5mm Jack.
+- **Specs:** 3GB RAM | 32GB Internal ([Pending verification - run `df -h /data`]; see [[inventory-bom#Compute & Devices]]) | 64GB MicroSD (`43CC-5E0C`) symlinked at `~/sdcard` | 2.4GHz Wi-Fi (static `192.168.1.110`, SSH on `:8022`) | 3.5mm Jack.
 - **CRITICAL LOCK:** NEVER touch or delete **Samsung Settings** or **Device Drivers**.
-- **Supposed to do:** Debloat via ADB (removed Montray too), keep core apps (`Samsung Settings`, `Device Drivers`, `CX File Explorer`, `YouTube ReVanced`, `VLC`, `Gboard`), install `Termux`, and configure `OpenSSH` (`:8022`) for PC control.
-- **Completed:** ADB debloat pass, Termux + OpenSSH running on port 8022, 64GB SD card mapped, verified CLI FLAC playback via `mpv`.
-- **Currently doing:** Checking post-debloat free internal storage space and planning automated weekly/daily Termux scripts.
-- **Left to do:** Configure Termux `crond` task scheduler for automated scripts.
+- **Supposed to do:** Factory reset phone, debloat via ADB (remove Montray too), keep core apps (`Samsung Settings`, `Device Drivers`, `CX File Explorer`, `YouTube ReVanced`, `VLC`, `Gboard`), install `Termux`, and configure `OpenSSH` (`:8022`) for PC control.
+- **Completed:** Clean reset, account-free setup, deep ADB debloat, OpenSSH configured on port 8022 (`u0_a253@192.168.1.110`), and SD card filesystem symlinked (`~/sdcard`).
+- **Currently doing:** Finalizing SD card storage structure (`~/sdcard/Music/FLAC`) and checking internal storage recovery.
+- **Left to do:** Audit final free internal storage space and write first lightweight media/status script.
 
 ## Module 3: ESP32 + DFPlayer Physical Jukebox
 - **Linked State File:** [[states/progress-state-jukebox-esp32]]
