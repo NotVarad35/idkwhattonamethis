@@ -1,9 +1,9 @@
 # Hardware Inventory & Bill of Materials (BOM)
-- **Last Updated:** 06-11-2026 08:20:00
+- **Last Updated:** 06-11-2026 08:37:07
 
 ## 1. Active Bench Hardware (In-Hand)
 ### Compute & Devices
-- [x] **Samsung Galaxy M11 (Free | 3GB RAM, 32GB Internal [Pending verification - run df -h /data], 2.4GHz Wi-Fi, 3.5mm Jack)** — Clean reset, zero cloud accounts, static IP 192.168.1.110, running Termux OpenSSH (:8022), CX File Explorer, Gboard.
+- [x] **Samsung Galaxy M11 (Free | 3GB RAM, 32GB Internal [20GB free post-reset/debloat], 2.4GHz Wi-Fi, 3.5mm Jack)** — Clean reset, zero cloud accounts, static IP 192.168.1.110, running Termux OpenSSH (:8022), CX File Explorer, Gboard.
 - [x] **ESP32 Dev Board (30-Pin ESP-WROOM-32, CP2102 on COM4)** — Jukebox MCU[cite: 2].
 - [x] **Nothing Phone (2a)** — Daily phone & NFC reader/writer[cite: 1].
 
