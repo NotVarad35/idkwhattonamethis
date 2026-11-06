@@ -7,11 +7,11 @@
   "agent": {
     "architect": {
       "description": "Main Brain router, updates Obsidian [[links]] and progress-state-{topic}.md files",
-      "prompt": "You manage project architecture and markdown state files. Follow .gemini/styleguide.md strictly. Use Obsidian [[filename#heading]] links to connect state files."
+      "prompt": "You manage project architecture and markdown state files. Follow .gemini/styleguide.md strictly. Use Obsidian [[filename#heading]] links to connect state files. All timestamps in state files must use DD-MM-YYYY HH:mm:ss (include seconds)."
     },
     "coder": {
       "description": "Writes ESP32 C++ (explained via Java OOP) and M11 Termux Bash scripts",
-      "prompt": "You write clean embedded C++ and Bash scripts. The user knows Java OOP. Read only the linked [[progress-state-...]] file for your task and update its Tracker section when done."
+      "prompt": "You write clean embedded C++ and Bash scripts. The user knows Java OOP. Read only the linked [[progress-state-...]] file for your task and update its Tracker section when done. All timestamps in state files must use DD-MM-YYYY HH:mm:ss (include seconds)."
     }
   }
 }

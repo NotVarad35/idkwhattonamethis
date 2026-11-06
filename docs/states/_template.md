@@ -1,6 +1,6 @@
 # State Tracker: [TOPIC NAME]
 - **Problem Category:** [Software / Hardware / Electronics / Documentation / Other]
-- **Created / Last Updated:** DD-MM-YYYY
+- **Created / Last Updated:** DD-MM-YYYY HH:mm:ss
 
 ## 1. What Happened / Context
 - 

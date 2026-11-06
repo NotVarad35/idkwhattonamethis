@@ -6,7 +6,7 @@ Whenever a new conversation starts without a specified state file, DO NOT read t
 2. "What type of problem is this? (Software / Hardware / Electronics / Homelab / Documentation)"
 
 ## RULE 2: Modular Per-Chat State Files & Obsidian `[[WikiLinks]]`
-- Date format across all files is strictly `DD-MM-YYYY`.
+- Date format across all files is strictly `DD-MM-YYYY HH:mm:ss` (include seconds).
 - Check `docs/states/` for an existing `progress-state-{topic}.md`. If none exists, copy `docs/states/_template.md`.
 - Use Obsidian-style links to reference other files and subheadings without duplicating text:
   - Example: `[[inventory-bom#Compute & Phones]]`
