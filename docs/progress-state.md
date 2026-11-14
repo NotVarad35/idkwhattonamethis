@@ -20,7 +20,7 @@
 - **Completed:** Unlocked bootloader, wiped device, flashed Magisk v30.7 via Odin, bypassed setup screen, verified root, and turned off auto-updates.
 - **Currently doing:** Re-establishing base infrastructure: Re-debloating One UI and managing the 24/7 battery charge limit via the ACC Magisk module.
 - **Left to do:** 
-  1. Re-run ADB debloat pass.
+  1. ~~Re-run ADB debloat pass~~ — done 14-11-2026 21:26:16, 325 -> 166 packages (details in [[states/progress-state-m11-debloat]]).
   2. Install ACC module for battery hard-cap.
   3. Re-install Termux and OpenSSH (Port 8022).
   4. Spin up native Debian via Linux Deploy.
