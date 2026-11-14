@@ -1,5 +1,5 @@
 # Master Project Router (`idkwhattonamethis`)
-- **Last Updated:** 14-11-2026 20:07:00
+- **Last Updated:** 14-11-2026 21:02:00
 - **Master Inventory:** [[inventory-bom]]
 - **Chronological History:** [[history-master]]
 
@@ -15,7 +15,8 @@
 - **Linked State File:** [[states/progress-state-m11-homelab]]
 - **Hardware Profile:** Snapdragon 450, 3GB RAM, 32GB Internal ROM, 64GB MicroSD (`43CC-5E0C`), 2.4GHz Wi-Fi (`192.168.1.110`), 3.5mm Headphone Jack.
 - **State Change (ROOTED):** Device was wiped to unlock bootloader. Magisk v30.7 is active. Knox is 0x1. Previous un-rooted environment is gone.
-- **CRITICAL LOCK:** NEVER touch or delete **Samsung Settings** (`com.android.settings`) or **Device Drivers**.
+- **CRITICAL LOCK:** NEVER touch or delete **Samsung Settings** (`com.android.settings`) or **Device Drivers**. Also keep: Magisk, ACC, Termux, OpenSSH, Linux Deploy, and `mpv` (CLI audio; no VLC). The One UI core (launcher, SystemUI, telephony, providers) stays; only apps are stripped.
+- **Browser:** Firefox (armeabi-v7a APK) installed via ADB on 14-11-2026; Chrome removal only after that.
 - **Completed:** Unlocked bootloader, wiped device, flashed Magisk v30.7 via Odin, bypassed setup screen, verified root, and turned off auto-updates.
 - **Currently doing:** Re-establishing base infrastructure: Re-debloating One UI and managing the 24/7 battery charge limit via the ACC Magisk module.
 - **Left to do:** 
@@ -24,6 +25,7 @@
   3. Re-install Termux and OpenSSH (Port 8022).
   4. Spin up native Debian via Linux Deploy.
   5. Seed initial FLAC library (Yorushika album + singles) over SCP.
+  6. Implement Automated Wallpaper Cycler via Termux:API and cron (Details in [[todo#Automated Wallpaper Cycler for Samsung M11]]).
 
 ## Module 3: ESP32 + DFPlayer Physical Jukebox
 - **Linked State File:** [[states/progress-state-jukebox-esp32]]

@@ -1,6 +1,6 @@
 # State Tracker: Samsung M11 DAP & Homelab
 - **Problem Category:** Software / Homelab / Android Root & Storage
-- **Created / Last Updated:** 14-11-2026 20:07:00
+- **Created / Last Updated:** 14-11-2026 21:02:00
 - **Related Links:** [[progress-state#Module 2: Samsung Galaxy M11 (DAP + 2.4GHz Homelab)]] | [[inventory-bom#Compute & Devices]]
 
 ## 1. What Happened / Context
@@ -18,3 +18,4 @@
   3. Re-install Termux and OpenSSH (Port 8022). 
   4. Manually seed the library via SCP: Yorushika's debut album (`夏草が邪魔をする`) and 5 singles (`思想犯`, `春泥棒`, `晴る`, `忘れてください`, `アポリア`).
   5. Spin up native Debian via Linux Deploy.
+  6. Implement Automated Wallpaper Cycler via Termux:API and cron (Details in [[todo#Automated Wallpaper Cycler for Samsung M11]]).
