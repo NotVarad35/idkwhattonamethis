@@ -1,5 +1,5 @@
 # Hardware Inventory & Bill of Materials (BOM)
-- **Last Updated:** 15-11-2026 19:10:38
+- **Last Updated:** 15-11-2026 05:54:09
 
 ## 1. Active Bench Hardware (In-Hand)
 ### Compute & Devices
