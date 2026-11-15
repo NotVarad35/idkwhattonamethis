@@ -1,5 +1,5 @@
 # Project History, Filtered Milestones & Incident Logs
-- **Last Updated:** 06-11-2026 06:31:07
+- **Last Updated:** 15-11-2026 19:10:38
 
 ## Part 1: Filtered Chronological Story (What Happened Till Now)
 
@@ -63,3 +63,20 @@
 - Stripped additional system apps (Messages, Keyboard, My Files, Drive) for maximum RAM savings on the 3GB M11.
 - Deferred Tailscale setup in favor of local 2.4GHz Wi-Fi SSH and zero-latency USB port forwarding (`adb forward tcp:8022 tcp:8022`).
 - **Future Addition Queued:** Automated daily/weekly background scripts running on the M11 via Termux cron/job scheduler.
+
+---
+
+## Part 4: Root, Deep Debloat & the Network-Audio Pivot (14-11-2026 → 15-11-2026)
+
+### 1. M11 Rooted — and Wiped
+- Standard Termux on the unrooted One UI kernel blocks the cgroups/namespaces Docker needs, so the M11 was rooted to enable Linux Deploy (chroot).
+- Unlocking the bootloader forced a mandatory `/data` wipe and tripped Knox (`0x1`), destroying the working unrooted Termux/SSH baseline. Magisk v30.7 was flashed via Odin and root verified (`uid=0`); auto-updates were disabled to protect the patched boot image.
+
+### 2. Post-Root Debloat Round 2
+- Package count went **325 → 166** via `pm uninstall -k --user 0`. Removed Samsung/Google bloat, telemetry, Play Store, Gallery/My Files, Edge panels, and all wallpaper packages. Kept the hard locks (Samsung Settings, device drivers, telephony core) plus Magisk, Termux, Firefox, and the launcher (freezing it broke Recents).
+- Details: [[states/progress-state-m11-debloat]].
+
+### 3. Jukebox Architecture Pivot (15-11-2026)
+- **No MicroSD card on the jukebox.** The ESP32 is now a Wi-Fi audio client; the M11 is the sole storage hub and wireless audio host (Navidrome at `192.168.1.110`).
+- **DFPlayer Mini deprecated** for playback (SD-card-only decoder, cannot stream). Replaced by an I2S DAC module (GY-PCM5102A or UDA1334A), with a 2.0-inch ST7789V IPS display for album art.
+- Enclosure fixed at a **16 cm x 16 cm x 16 cm** cube — 1:1 Minecraft pixel ratio (1 px = 1 cm). See [[inventory-bom#3. Enclosure Spec (Target)]].

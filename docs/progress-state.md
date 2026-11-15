@@ -1,6 +1,7 @@
 # Master Project Router (`idkwhattonamethis`)
-- **Last Updated:** 14-11-2026 21:02:00
+- **Last Updated:** 15-11-2026 19:10:38
 - **Master Inventory:** [[inventory-bom]]
+- **Master To-Do:** [[Todo]]
 - **Chronological History:** [[history-master]]
 
 ---
@@ -25,15 +26,18 @@
   3. Re-install Termux and OpenSSH (Port 8022).
   4. Spin up native Debian via Linux Deploy.
   5. Seed initial FLAC library (Yorushika album + singles) over SCP.
-  6. Implement Automated Wallpaper Cycler via Termux:API and cron (Details in [[todo#Automated Wallpaper Cycler for Samsung M11]]).
+  6. Implement Automated Wallpaper Cycler via Termux:API and cron (Details in [[Todo#Automated Wallpaper Cycler for Samsung M11]]).
 
-## Module 3: ESP32 + DFPlayer Physical Jukebox
+## Module 3: ESP32 + I2S Network Jukebox (M11 as Audio Host)
 - **Linked State File:** [[states/progress-state-jukebox-esp32]]
-- **Hardware Note:** Currently has NO MicroSD card inserted (the single 64GB card is active in the Samsung M11).
-- **Supposed to do:** Build a standalone, offline hardware jukebox on a breadboard.
-- **Completed:** Verified CP2102 COM4 serial connection and benched unsoldered RC522 NFC module.
-- **Currently doing:** On hold while M11 storage and Linux Deploy rebuilding are completed.
-- **Left to do:** Source a dedicated MicroSD card for the DFPlayer Mini and rebuild breadboard wiring from zero.
+- **Architecture (pivot 15-11-2026):** **NO MicroSD card on the jukebox.** The Samsung M11 is the sole storage hub and wireless audio host; the ESP32 streams the library over 2.4GHz Wi-Fi and outputs I2S to a DAC.
+- **Active parts:** I2S DAC module (GY-PCM5102A or UDA1334A) + 2.0-inch square IPS LCD (ST7789V, SPI) for album art.
+- **Deprecated:** DFPlayer Mini for standalone playback — it is an SD-card-only decoder and cannot stream.
+- **Enclosure:** **16 cm x 16 cm x 16 cm** cube — 1:1 Minecraft pixel ratio (**1 px = 1 cm**).
+- **Supposed to do:** Build a network-attached jukebox on the breadboard: ESP32 pulls audio from the M11 (Navidrome), decodes it to I2S, and renders album art on the ST7789V.
+- **Completed:** Verified CP2102 COM4 serial connection; benched the unsoldered RC522; locked the network-audio architecture, the new parts list, and the 16 cm cube enclosure.
+- **Currently doing:** On hold awaiting the I2S DAC and ST7789V display before any rewiring.
+- **Left to do:** Wire I2S DAC → TRRS breakout, bring up the ST7789V over SPI, write the streaming client, then add encoder/button controls and cut the cube.
 
 ## Module 4: NFC Album Wall Posters
 - **Supposed to do:** Repurpose NTAG213 stickers onto room album posters to trigger playback when scanned by a primary smartphone.
