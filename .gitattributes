@@ -1,0 +1,5 @@
+# Termux runs these: CRLF would break the shebang and heredocs.
+m11-homelab/configs/yt-sync/*.sh text eol=lf
+m11-homelab/configs/yt-sync/*.py text eol=lf
+m11-homelab/configs/yt-sync/*.json text eol=lf
+m11-homelab/configs/yt-sync/*.env.example text eol=lf

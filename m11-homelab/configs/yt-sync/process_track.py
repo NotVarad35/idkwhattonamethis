@@ -132,6 +132,7 @@ _SEP_RE = re.compile(r"(\s+[-–—―~]\s+|\s+[/／|｜]\s+|\s*[｜／]\s*)")
 _TRAIL_RE = re.compile(
     r"\s+(?:official\s+)?(?:music\s+video|video\s+clip|lyrics?\s+video|m\s*/\s*v|mv|"
     r"video|audio)\s*$", re.I)
+_COVER_TAIL_RE = re.compile(r"\s*(?:covered?\s*by|(?<![a-z])cover(?![a-z])|歌ってみた|弾いてみた|叩いてみた).*$", re.I)
 _QUOTED_RE = re.compile(r"^(?P<artist>.*?)\s*[「『](?P<song>[^」』]+)[」』]")
 
 _LABEL_RULES: list[tuple[str, re.Pattern]] = [
@@ -207,6 +208,10 @@ def parse_title(title: str, alias_hit) -> Parsed:
             out.add(labels, append=True)
             continue
         text = text.strip()
+        m = _COVER_TAIL_RE.search(text)    # "... covered by X" / "Cover by X" / "歌ってみた ver.X"
+        if m:
+            out.add(["Cover"], append=True)
+            text = text[:m.start()].rstrip(" -–—/／")
         while True:                        # trailing "Official Music Video" / "MV"
             m = _TRAIL_RE.search(text)
             if not m:
@@ -281,6 +286,8 @@ def decide(info: dict, amap: ArtistMap) -> Plan:
     elif info.get("artist"):
         meta_artist = str(info["artist"]).split(",")[0].strip()
     parsed_artist = meta_artist or p.artist or chan_clean
+    # "YOASOBI · Ayase" (YouTube Music style multi-artist credit): primary artist only
+    parsed_artist = re.split(r"\s*·\s*", parsed_artist)[0].strip() or parsed_artist
 
     mapped = True
     original_artist = None
