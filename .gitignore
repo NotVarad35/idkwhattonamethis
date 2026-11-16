@@ -12,3 +12,5 @@ build/
 *.mkv
 *.apk
 filemanagementonsamsungphone.pdf
+# yt-sync: real config holds the Navidrome password
+m11-homelab/configs/yt-sync/yt-sync.env

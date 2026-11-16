@@ -1,0 +1,32 @@
+{
+  "_readme": "artists: { \"CANONICAL NAME\": [\"alias\", \"alias\", ...] }. The key is the exact string written to the Artist tag, the Artist/ folder and the filename. Matching ignores case, spaces, punctuation and full/half-width, so 'Mrs. GREEN APPLE' == 'mrs green apple'. Put the channel names you see in the log (e.g. 'YOASOBI Official YouTube Channel') in the alias list. overrides: per-video fixes keyed by YouTube video ID; allowed fields: artist, title, route ('official' or 'various'), original_artist. Keys starting with _ are ignored.",
+  "artists": {
+    "ヨルシカ": ["Yorushika", "ヨルシカ / n-buna", "Yorushika Official", "ヨルシカ Official YouTube Channel"],
+    "YOASOBI": ["ヨアソビ", "YOASOBI Official YouTube Channel"],
+    "Ado": ["アド", "Ado Official", "Ado Channel"],
+    "Eve": ["イヴ", "Eve Official", "Eve Official YouTube Channel"],
+    "米津玄師": ["Kenshi Yonezu", "Yonezu Kenshi", "米津玄師 Kenshi Yonezu"],
+    "King Gnu": ["キングヌー", "King Gnu Official"],
+    "Official髭男dism": ["Official HIGE DANdism", "ヒゲダン", "Official Hige Dandism"],
+    "back number": ["バックナンバー", "back number Official"],
+    "あいみょん": ["Aimyon", "AIMYON"],
+    "Vaundy": ["バウンディ", "Vaundy Official"],
+    "優里": ["Yuuri"],
+    "Mrs. GREEN APPLE": ["ミセスグリーンアップル", "ミセス", "Mrs GREEN APPLE"],
+    "ずっと真夜中でいいのに。": ["ZUTOMAYO", "ずとまよ", "Zutto Mayonaka de Ii no ni", "ずっと真夜中でいいのに。 ZUTOMAYO"],
+    "サカナクション": ["Sakanaction"],
+    "RADWIMPS": ["ラッドウィンプス"],
+    "藤井 風": ["藤井風", "Fujii Kaze", "Kaze Fujii"],
+    "星野源": ["Gen Hoshino", "Hoshino Gen"],
+    "宇多田ヒカル": ["Hikaru Utada", "Utada Hikaru", "Utada"],
+    "LiSA": ["リサ", "LiSA Official"],
+    "Aimer": ["エメ"],
+    "amazarashi": ["アマザラシ"],
+    "ONE OK ROCK": ["ワンオクロック", "ワンオク", "ONE OK ROCK Official"],
+    "Creepy Nuts": ["クリーピーナッツ", "Creepy Nuts Official"],
+    "My Hair is Bad": ["マイヘア", "マイ・ヘア・イズ・バッド"],
+    "yama": ["ヤマ"],
+    "ツユ": ["TUYU", "tuyu"]
+  },
+  "overrides": {}
+}
