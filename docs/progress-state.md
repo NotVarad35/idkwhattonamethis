@@ -1,5 +1,5 @@
 # Master Project Router (`idkwhattonamethis`)
-- **Last Updated:** 15-11-2026 05:54:09
+- **Last Updated:** 16-11-2026 03:42:09
 - **Master Inventory:** [[inventory-bom]]
 - **Master To-Do:** [[Todo]]
 - **Chronological History:** [[history-master]]
@@ -18,8 +18,9 @@
 - **State Change (ROOTED):** Device was wiped to unlock bootloader. Magisk v30.7 is active. Knox is 0x1. Previous un-rooted environment is gone.
 - **CRITICAL LOCK:** NEVER touch or delete **Samsung Settings** (`com.android.settings`) or **Device Drivers**. Also keep: Magisk, ACC, Termux, OpenSSH, Linux Deploy, and `mpv` (CLI audio; no VLC). The One UI core (launcher, SystemUI, telephony, providers) stays; only apps are stripped.
 - **Browser:** Firefox (armeabi-v7a APK) installed via ADB on 14-11-2026; Chrome removal only after that.
+- **Config Backups:** Termux package list, `navidrome.toml`, and the debloat/setup script scaffold are versioned in `m11-homelab/configs/` ([[termux-packages]]).
 - **Completed:** Unlocked bootloader, wiped device, flashed Magisk v30.7 via Odin, bypassed setup screen, verified root, and turned off auto-updates.
-- **Currently doing:** Re-establishing base infrastructure: Re-debloating One UI and managing the 24/7 battery charge limit via the ACC Magisk module.
+- **Currently doing:** Deploying scripts to M11 via SSH and testing the first yt-dlp run.
 - **Left to do:** 
   1. ~~Re-run ADB debloat pass~~ — done 14-11-2026 21:26:16, 325 -> 166 packages (details in [[states/progress-state-m11-debloat]]).
   2. Install ACC module for battery hard-cap.

@@ -1,6 +1,6 @@
 # State Tracker: Samsung M11 DAP & Homelab
 - **Problem Category:** Software / Homelab / Android Root & Storage
-- **Created / Last Updated:** 15-11-2026 05:54:09
+- **Created / Last Updated:** 16-11-2026 03:42:09
 - **Related Links:** [[progress-state#Module 2: Samsung Galaxy M11 (DAP + 2.4GHz Homelab)]] | [[inventory-bom#Compute & Devices]]
 
 ## 1. What Happened / Context
@@ -12,7 +12,9 @@
 ## 2. Tracker
 - **Supposed to do:** Rebuild the homelab environment from scratch (this time utilizing root access for kernel-level battery management and a true Debian chroot) and seed the initial music library.
 - **What we actually did:** Unlocked bootloader, wiped device, flashed Magisk v30.7 via Odin, bypassed setup screen, verified root, and turned off auto-updates. Instructed Claude Code to audit the One UI OS for a deeper debloat pass.
-- **Currently doing:** Re-establishing base infrastructure: Re-debloating One UI, managing the 24/7 battery charge limit via the ACC Magisk module, and preparing the first SCP music transfer.
+- **Completed:** Generated the **yt-sync pipeline** — bash wrapper (`yt-sync.sh`), Python processor (`process_track.py`), canonical artist map (`artist_map.json`), plus `yt-sync.env.example` and `README.md` — and merged it into `m11-homelab/configs/yt-sync/` (PR #1, merge `fe9e9d5`).
+- **Currently doing:** Deploying scripts to M11 via SSH and testing the first yt-dlp run.
+- **Configs Backed Up Locally:** The Termux package list ([[termux-packages]]), the Navidrome config ([[navidrome.toml]]), and the placeholder automation script ([[debloat-and-setup.sh]]) are now versioned in `m11-homelab/configs/`, so a future wipe or re-flash can be rebuilt from the repo instead of memory.
 - **Left to do:** 
   1. Approve Claude's deep ADB debloat list and execute.
   2. Install ACC module for battery hard-cap. 
