@@ -1,0 +1,4 @@
+MusicFolder = "/storage/43CC-5E0C/Music"
+DataFolder = "/data/data/com.termux/files/home/.config/navidrome/data"
+Port = 4533
+LogLevel = "info"
