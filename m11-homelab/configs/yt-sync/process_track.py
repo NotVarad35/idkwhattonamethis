@@ -3,9 +3,10 @@
 
 Input : a staging directory holding, per video, <id>.<m4a|opus> + <id>.info.json
         + <id>.jpg (written by yt-dlp).
-Output: tagged audio in MUSIC_DIR/<Artist>/ or MUSIC_DIR/Various Artists/, named
+Output: tagged audio flat in MUSIC_DIR/<PLAYLIST_SUBDIR>/, named
         "{song} - {artist} [{video id}].{ext}", synced lyrics (embedded, or a
-        .lrc sidecar logged in SQLite), and new entries at the TOP of yt-sync.m3u.
+        .lrc sidecar logged in SQLite), and new entries at the TOP of
+        MUSIC_DIR/<PLAYLIST_SUBDIR>.m3u.
 
 Anything that fails stays in staging and is retried on the next run.
 Only third-party dependency: mutagen (pip install mutagen).
@@ -319,13 +320,15 @@ def decide(info: dict, amap: ArtistMap) -> Plan:
     plan.video_id = vid
     plan.song = song
     plan.title = title
+    # Every track is its own single: this keeps each track's cover art distinct
+    # in Navidrome, and also follows per-video title overrides.
+    plan.album = title
     plan.artist = artist
     plan.original_artist = original_artist
     plan.channel = channel
     plan.route = route
     plan.is_cover = is_cover
     plan.mapped = mapped
-    plan.album = (info.get("album") or title).strip() if not is_cover else title
     plan.duration = int(info.get("duration") or 0)
     year = info.get("release_year") or (info.get("upload_date") or "")[:4]
     plan.year = str(year) if year else ""
@@ -333,8 +336,9 @@ def decide(info: dict, amap: ArtistMap) -> Plan:
     return plan
 
 
-def build_dest(music_dir: Path, plan: Plan, ext: str) -> Path:
-    folder = VARIOUS_DIR if plan.route == "various" else safe_name(plan.artist)
+def build_dest(music_dir: Path, playlist_subdir: str, plan: Plan, ext: str) -> Path:
+    """All playlist tracks go flat into one playlist folder (no artist split)."""
+    folder = safe_name(playlist_subdir or "ytsync")
     stem_tail = f" - {safe_name(plan.artist)} [{plan.video_id}]"
     title_s = safe_name(plan.title)
     while len((title_s + stem_tail + ext).encode("utf-8")) > MAX_FILENAME_BYTES and len(title_s) > 1:
@@ -343,7 +347,7 @@ def build_dest(music_dir: Path, plan: Plan, ext: str) -> Path:
 
 
 # --------------------------------------------------------------------------- #
-# Cover art: prefer 1:1 high-res, else the 16:9 YouTube thumbnail
+# Cover art: NEVER rectangular - native 1:1 or ffmpeg-cropped 1:1
 # --------------------------------------------------------------------------- #
 
 def http_get(url: str) -> bytes:
@@ -391,41 +395,108 @@ def to_jpeg(data: bytes, workdir: Path) -> bytes | None:
             f.unlink(missing_ok=True)
 
 
+def ffmpeg_crop_square(data: bytes, workdir: Path, vf: str) -> bytes | None:
+    """Run one ffmpeg crop pass and return JPEG bytes."""
+    src, dst = workdir / ".art_crop_in", workdir / ".art_crop_out.jpg"
+    try:
+        src.write_bytes(data)
+        subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(src),
+                        "-vf", vf, "-frames:v", "1", "-q:v", "2", str(dst)],
+                       check=True, timeout=60)
+        return dst.read_bytes()
+    except Exception as e:
+        log(f"    [art] crop failed ({vf}): {e}")
+        return None
+    finally:
+        for f in (src, dst):
+            f.unlink(missing_ok=True)
+
+
+def square_cover(data: bytes, workdir: Path, label: str = "thumbnail") -> tuple[bytes, str, int, int, str] | None:
+    """Return (bytes, mime, w, h, '1:1'|'1:1-crop') for ANY input image."""
+    meta = sniff_image(data)
+    if meta is None or not meta[1] or not meta[2]:
+        converted = to_jpeg(data, workdir)
+        if converted:
+            data = converted
+            meta = sniff_image(data)
+    if not meta:
+        log(f"    [art] cannot read {label}")
+        return None
+    mime, w, h = meta
+    if not w or not h:
+        log(f"    [art] cannot sniff dimensions for {label}")
+        return None
+    if w == h:
+        return data, mime, w, h, "1:1"
+
+    # YouTube hqdefault is 480x360 with 45px black bars top/bottom: crop the
+    # 270px-tall active picture, not the whole 360px frame.
+    if w == 480 and h == 360:
+        vf = "crop=270:270"
+    else:
+        vf = "crop='min(iw,ih)':'min(iw,ih)'"
+    log(f"    [art] {w}x{h} {label} is not square; cropping with {vf}")
+    out = ffmpeg_crop_square(data, workdir, vf)
+    if not out:
+        return None
+    outmeta = sniff_image(out)
+    if not outmeta or outmeta[1] != outmeta[2]:
+        log(f"    [art] ffmpeg did not produce a square for {label}")
+        return None
+    return out, "image/jpeg", outmeta[1], outmeta[2], "1:1-crop"
+
+
 def pick_cover(info: dict, staged_thumb: Path | None, workdir: Path) -> tuple[bytes, str, int, int, str] | None:
-    """Return (bytes, mime, w, h, kind) with kind '1:1' or '16:9'."""
-    squares = [t for t in info.get("thumbnails") or []
+    """Return (bytes, mime, w, h, kind); kind is always '1:1' or '1:1-crop'."""
+    seen_urls: set[str] = set()
+
+    def from_url(url: str | None, label: str) -> tuple[bytes, str, int, int, str] | None:
+        if not url or url in seen_urls:
+            return None
+        seen_urls.add(url)
+        try:
+            return square_cover(http_get(url), workdir, label)
+        except Exception as e:
+            log(f"    [art] {label} failed ({e})")
+            return None
+
+    thumbs = [t for t in (info.get("thumbnails") or []) if isinstance(t, dict)]
+
+    # 1. Metadata says the thumbnail is already square (Topic/auto-generated art).
+    squares = [t for t in thumbs
                if t.get("url") and t.get("width") and t.get("height")
                and t["width"] == t["height"] and t["width"] >= MIN_SQUARE_ART_PX]
     squares.sort(key=lambda t: t["width"], reverse=True)
     for t in squares[:2]:
-        try:
-            data = http_get(t["url"])
-            meta = sniff_image(data)
-            if meta is None:
-                data = to_jpeg(data, workdir) or b""
-                meta = sniff_image(data) if data else None
-            if meta:
-                return data, meta[0], meta[1], meta[2], "1:1"
-        except Exception as e:                               # fall through to 16:9
-            log(f"    [art] square thumbnail failed ({e}); using 16:9")
-    candidates: list[bytes] = []
+        got = from_url(t.get("url"), "square thumbnail")
+        if got:
+            return got
+
+    # 2. Googleusercontent thumbs often hide real art in 16:9 wrappers: sniff
+    #    the downloaded bytes instead of trusting the metadata.
+    google = [t for t in thumbs
+              if t.get("url") and "lh3.googleusercontent.com" in urllib.parse.urlparse(t["url"]).netloc]
+    google.sort(key=lambda t: (t.get("width") or 0, t.get("height") or 0), reverse=True)
+    for t in google[:4]:
+        got = from_url(t.get("url"), "lh3 thumbnail")
+        if got:
+            return got
+
+    # 3. The thumbnail yt-dlp staged next to the audio.
     if staged_thumb and staged_thumb.exists():
-        candidates.append(staged_thumb.read_bytes())
-    for data in candidates:
-        meta = sniff_image(data)
-        if meta is None:
-            data = to_jpeg(data, workdir) or b""
-            meta = sniff_image(data) if data else None
-        if meta:
-            return data, meta[0], meta[1], meta[2], "16:9"
-    for name in ("maxresdefault", "hqdefault"):             # last resort: ask YouTube directly
         try:
-            data = http_get(f"https://i.ytimg.com/vi/{info['id']}/{name}.jpg")
-            meta = sniff_image(data)
-            if meta:
-                return data, meta[0], meta[1], meta[2], "16:9"
-        except Exception:
-            continue
+            got = square_cover(staged_thumb.read_bytes(), workdir, "staged thumbnail")
+            if got:
+                return got
+        except Exception as e:
+            log(f"    [art] staged thumbnail failed ({e})")
+
+    # 4. Last resort: ask YouTube directly.
+    for name in ("maxresdefault", "hqdefault"):
+        got = from_url(f"https://i.ytimg.com/vi/{info['id']}/{name}.jpg", name)
+        if got:
+            return got
     return None
 
 
@@ -647,7 +718,7 @@ def process_one(info_path: Path, args, amap: ArtistMap, db: sqlite3.Connection, 
     plan = decide(info, amap)
     if not plan.mapped:
         log(f"    [map?] unmapped artist '{plan.artist}' (channel '{plan.channel}', id {vid}) - add to artist_map.json")
-    dest = build_dest(Path(args.music_dir), plan, audio.suffix.lower())
+    dest = build_dest(Path(args.music_dir), args.playlist_subdir, plan, audio.suffix.lower())
 
     cover = pick_cover(info, find_thumb(staging, vid), staging)
     art_kind = cover[4] if cover else "none"
@@ -699,6 +770,8 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--staging", default=env("STAGING"), required=env("STAGING") is None)
     ap.add_argument("--music-dir", default=env("MUSIC_DIR"), required=env("MUSIC_DIR") is None)
+    ap.add_argument("--playlist-subdir", default=env("PLAYLIST_SUBDIR", "ytsync") or "ytsync",
+                    help="single folder under MUSIC_DIR for every track in this playlist (default: ytsync)")
     ap.add_argument("--navidrome-music-dir", default=env("NAVIDROME_MUSIC_DIR"),
                     help="music dir as Navidrome sees it, if different (written into the m3u)")
     ap.add_argument("--artist-map", default=env("ARTIST_MAP", str(Path(__file__).with_name("artist_map.json"))))
@@ -709,7 +782,8 @@ def main() -> int:
                     help="playlist index 1 is the newest item (default: newest = highest index)")
     args = ap.parse_args()
     if not args.m3u:
-        args.m3u = str(Path(args.music_dir) / "yt-sync.m3u")
+        playlist_name = safe_name(args.playlist_subdir or "ytsync")
+        args.m3u = str(Path(args.music_dir) / f"{playlist_name}.m3u")
 
     staging = Path(args.staging)
     amap = ArtistMap(Path(args.artist_map))
