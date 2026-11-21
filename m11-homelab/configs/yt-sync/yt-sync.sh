@@ -30,11 +30,12 @@ CONF="${YT_SYNC_CONF:-$SCRIPT_DIR/yt-sync.env}"
 
 : "${PLAYLIST_URL:?set PLAYLIST_URL in $CONF}"
 MUSIC_DIR="${MUSIC_DIR:-/storage/43CC-5E0C/Music}"
+PLAYLIST_SUBDIR="${PLAYLIST_SUBDIR:-ytsync}"                # one flat folder for the whole playlist
 NAVIDROME_MUSIC_DIR="${NAVIDROME_MUSIC_DIR:-$MUSIC_DIR}"   # path as Navidrome sees it
 NAVIDROME_URL="${NAVIDROME_URL:-http://127.0.0.1:4533}"
 STATE_DIR="${STATE_DIR:-$HOME/.local/share/yt-sync}"
 ARTIST_MAP="${ARTIST_MAP:-$SCRIPT_DIR/artist_map.json}"
-M3U_FILE="${M3U_FILE:-$MUSIC_DIR/yt-sync.m3u}"
+M3U_FILE="${M3U_FILE:-$MUSIC_DIR/${PLAYLIST_SUBDIR}.m3u}"
 PYTHON="${PYTHON:-python}"
 
 ARCHIVE="$STATE_DIR/archive.txt"
@@ -81,7 +82,7 @@ done
 [ -f "$PROCESSOR" ] || die "missing $PROCESSOR"
 [ -d "$MUSIC_DIR" ] && [ -w "$MUSIC_DIR" ] || die "MUSIC_DIR not writable: $MUSIC_DIR (run termux-setup-storage / check SD mount)"
 
-log "=== yt-sync start (dry_run=$DRY_RUN process_only=$PROCESS_ONLY) ==="
+log "=== yt-sync start (dry_run=$DRY_RUN process_only=$PROCESS_ONLY subdir=$PLAYLIST_SUBDIR) ==="
 
 # ---- 1. download new tracks -----------------------------------------------------
 if [ "$PROCESS_ONLY" = 0 ]; then
@@ -126,7 +127,8 @@ NEW=0; FAILED=0
 PROC_EXTRA=()
 [ "${NEWEST_AT_START:-0}" = 1 ] && PROC_EXTRA+=(--newest-at-start)
 "$PYTHON" "$PROCESSOR" \
-  --staging "$STAGING" --music-dir "$MUSIC_DIR" --navidrome-music-dir "$NAVIDROME_MUSIC_DIR" \
+  --staging "$STAGING" --music-dir "$MUSIC_DIR" --playlist-subdir "$PLAYLIST_SUBDIR" \
+  --navidrome-music-dir "$NAVIDROME_MUSIC_DIR" \
   --artist-map "$ARTIST_MAP" --m3u "$M3U_FILE" --db "$DB" --result-file "$RESULT_FILE" \
   "${PROC_EXTRA[@]}"
 PY_RC=$?
